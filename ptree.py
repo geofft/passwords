@@ -58,18 +58,19 @@ class Ptree(object):
         self.bits = setbits('root')
 
     def generate(self, r):
-        def genhelper(node, r):
-            choice = r % (2L ** node.mybits)
-            r >>= node.mybits
+        def genhelper(node, r, offset):
+            offset -= node.mybits
+            choice = r >> offset
+            r &= (2 ** offset - 1)
             refs, pieces = node.children[choice]
             ipieces = iter(pieces)
             ret = ipieces.next()
             for ref in refs:
-                retd, r = genhelper(self.rules[ref], r)
+                retd, r, offset = genhelper(self.rules[ref], r, offset)
                 ret += retd + ipieces.next()
-            return ret, r
+            return ret, r, offset
 
-        return genhelper(self.rules['root'], r)[0]
+        return genhelper(self.rules['root'], r, self.rules['root'].bits)[0]
 
     def parse(self, s):
         class NoMatch(Exception):
