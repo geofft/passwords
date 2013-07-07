@@ -1,0 +1,9 @@
+root = The %adj %color %animal %verbed over the %adj %animal.
+
+adj = quick | nimble | swift | agile | lazy | idle | sleepy | careless
+
+color = brown | red | black | white
+
+animal = fox | dog | rabbit | moose
+
+verbed = jumped | walked | stepped | leaped
